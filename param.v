@@ -40,7 +40,7 @@
 `define TRG_PSRAM     `BIT_DATA'd2
 
 `define BIT_INSTR     (1+`BIT_OPCODE+`BIT_PARAM+`BIT_DATA)
-`define BIT_STATE     4
+`define BIT_STATE     5
 
 // Declare the state values 
 `define IDLE               5'b00000 // 0

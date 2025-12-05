@@ -5,7 +5,8 @@ module pe(
     // Row_ID for Weight Buffer
     input [`BIT_ROW_ID-1:0] Row_ID,
     // Input, Weight Input
-    input signed [`BIT_DATA-1:0] Data_I_In, Data_W_In,
+    input [`BIT_DATA-1:0] Data_I_In, 
+    input signed [`BIT_DATA-1:0] Data_W_In,
     input EN_W_In,
     input [`BIT_ROW_ID-1:0] EN_ID_In,
     // Psum Input
@@ -13,7 +14,8 @@ module pe(
     input [`BIT_ADDR-1:0] Addr_P_In,
     input [`BIT_VALID-1:0] Valid_P_In,
     // Input, Weight output
-    output reg signed [`BIT_DATA-1:0] Data_I_Out, Data_W_Out,
+    output reg [`BIT_DATA-1:0] Data_I_Out,
+    output reg signed [`BIT_DATA-1:0] Data_W_Out,
     output reg EN_W_Out,
     output reg [`BIT_ROW_ID-1:0] EN_ID_Out,
     // Psum output
@@ -23,6 +25,8 @@ module pe(
 );
 
 reg signed [`BIT_DATA-1:0] Data_W_Buf;
+
+wire signed [`BIT_DATA:0] Data_I_Signed = {1'b0, Data_I_In};
 
 always @(posedge CLK) begin
     Data_I_Out <= Data_I_In;
@@ -35,7 +39,7 @@ always @(posedge CLK) begin
     if (EN_W_In && (EN_ID_In == Row_ID)) 
         Data_W_Buf <= Data_W_In;
 
-    Psum_Out <= Data_I_In * Data_W_Buf + Psum_In;
+    Psum_Out <= Data_I_Signed * Data_W_Buf + Psum_In;
     // if (Row_ID == 0) begin
     //     $display("  [PE %0d] I=%0d, W=%0d, Psum_In=%0d : Psum_Out=%0d", Row_ID, Data_I_In, Data_W_Buf, Psum_In, Psum_Out);
     //     $display("           Addr_P_In=%0d, Addr_P_Out=%0d, Valid_P_In=%b, Valid_P_Out=%b", Addr_P_In, Addr_P_Out, Valid_P_In, Valid_P_Out);
