@@ -878,6 +878,9 @@ module systolic_ctrl(
 
                 Param_BASE_WSRAM_q <= Param_BASE_WSRAM_d;
                 Param_BASE_WSRAM_WH_q <= Param_BASE_WSRAM_WH_d;
+
+                // 확인중
+                instr_stall_q <= (state_d != `FETCH);
             end
         end
     // # endregion
